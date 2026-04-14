@@ -15,6 +15,18 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Productivity"
+    },
+    {
+      "name": "claude-obsidian",
+      "source": {
+        "source": "github",
+        "repo": "AgriciDaniel/claude-obsidian"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Knowledge Management"
     }
   ]
 }

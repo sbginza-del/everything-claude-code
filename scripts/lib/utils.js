@@ -545,6 +545,23 @@ function stripAnsi(str) {
 }
 
 /**
+ * Compute Shannon entropy (bits) for a string.
+ * Returns 0 for empty or single-character strings.
+ */
+function shannonEntropy(str) {
+  if (typeof str !== 'string' || str.length === 0) return 0;
+  const freq = {};
+  for (const ch of str) {
+    freq[ch] = (freq[ch] || 0) + 1;
+  }
+  const len = str.length;
+  return Object.values(freq).reduce((sum, count) => {
+    const p = count / len;
+    return sum - p * Math.log2(p);
+  }, 0);
+}
+
+/**
  * Search for pattern in file and return matching lines with line numbers
  */
 function grepFile(filePath, pattern) {
@@ -620,6 +637,9 @@ module.exports = {
   readStdinJson,
   log,
   output,
+
+  // Entropy
+  shannonEntropy,
 
   // System
   commandExists,

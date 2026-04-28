@@ -2636,6 +2636,40 @@ function runTests() {
     assert.strictEqual(utils.stripAnsi('\x1b[?25hvisible\x1b[?25l'), 'visible');
   })) passed++; else failed++;
 
+  // Shannon Entropy tests
+  console.log('\nShannonEntropy:');
+
+  if (test('returns 0 for empty string', () => {
+    assert.strictEqual(utils.shannonEntropy(''), 0);
+  })) passed++; else failed++;
+
+  if (test('returns 0 for single character', () => {
+    assert.strictEqual(utils.shannonEntropy('a'), 0);
+    assert.strictEqual(utils.shannonEntropy('aaaa'), 0);
+  })) passed++; else failed++;
+
+  if (test('returns 1 bit for two equally likely characters', () => {
+    assert.strictEqual(utils.shannonEntropy('ab'), 1);
+    assert.strictEqual(utils.shannonEntropy('aabb'), 1);
+  })) passed++; else failed++;
+
+  if (test('returns 2 bits for four equally likely characters', () => {
+    assert.strictEqual(utils.shannonEntropy('abcd'), 2);
+  })) passed++; else failed++;
+
+  if (test('returns 0 for non-string input', () => {
+    assert.strictEqual(utils.shannonEntropy(null), 0);
+    assert.strictEqual(utils.shannonEntropy(undefined), 0);
+    assert.strictEqual(utils.shannonEntropy(42), 0);
+  })) passed++; else failed++;
+
+  if (test('result is between 0 and log2(unique chars)', () => {
+    const s = 'hello world';
+    const h = utils.shannonEntropy(s);
+    const unique = new Set(s).size;
+    assert.ok(h > 0 && h <= Math.log2(unique), `entropy ${h} out of range`);
+  })) passed++; else failed++;
+
   // Summary
   console.log('\n=== Test Results ===');
   console.log(`Passed: ${passed}`);

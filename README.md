@@ -394,6 +394,7 @@ everything-claude-code/
 |   |-- perl-testing/              # Perl TDD with Test2::V0, prove, Devel::Cover (NEW)
 |   |-- autonomous-loops/           # Autonomous loop patterns: sequential pipelines, PR loops, DAG orchestration (NEW)
 |   |-- plankton-code-quality/      # Write-time code quality enforcement with Plankton hooks (NEW)
+|   |-- agent-memory/               # Persistent cross-session memory via MCP knowledge graph (NEW)
 |
 |-- commands/         # Legacy slash-entry shims; prefer skills/
 |   |-- tdd.md              # /tdd - Test-driven development

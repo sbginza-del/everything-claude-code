@@ -14,6 +14,30 @@ while [ -L "$SCRIPT_PATH" ]; do
 done
 SCRIPT_DIR="$(cd "$(dirname "$SCRIPT_PATH")" && pwd)"
 
+# ── Prerequisite: Claude Code CLI ──────────────────────────────────────────
+if [ "${ECC_SKIP_CLAUDE_INSTALL:-}" != "1" ]; then
+    if ! command -v claude >/dev/null 2>&1; then
+        echo "[ECC] Claude Code CLI not found."
+        if ! command -v npm >/dev/null 2>&1; then
+            echo "[ECC] ERROR: npm is required to install Claude Code but was not found in PATH." >&2
+            echo "[ECC]        Install Node.js (https://nodejs.org) and re-run this script." >&2
+            exit 1
+        fi
+        echo "[ECC] Installing @anthropic-ai/claude-code globally..."
+        if ! npm install -g @anthropic-ai/claude-code; then
+            echo "[ECC] ERROR: 'npm install -g @anthropic-ai/claude-code' failed." >&2
+            echo "[ECC]        If this is a permissions error, try:" >&2
+            echo "[ECC]          sudo npm install -g @anthropic-ai/claude-code" >&2
+            echo "[ECC]        Or configure a user-writable npm prefix:" >&2
+            echo "[ECC]          https://docs.npmjs.com/resolving-eacces-permissions-errors" >&2
+            exit 1
+        fi
+        echo "[ECC] Claude Code installed successfully."
+    else
+        echo "[ECC] Claude Code CLI already installed, skipping."
+    fi
+fi
+
 # Auto-install Node dependencies when running from a git clone
 if [ ! -d "$SCRIPT_DIR/node_modules" ]; then
     echo "[ECC] Installing dependencies..."
